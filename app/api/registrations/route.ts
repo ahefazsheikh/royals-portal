@@ -915,15 +915,23 @@ export async function POST(req: Request) {
     // ✅ Fetch user photo
     const userPhoto = photo_url ? await fetchImageBuffer(photo_url) : null
 
-    // ✅ Mail setup
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    })
-
+    // ✅ Mail setup------------------------------------
+    // const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: process.env.EMAIL_USER,
+    //     pass: process.env.EMAIL_PASS,
+    //   },
+    // })
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,          // SSL port
+  secure: true,       // use SSL directly
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS, // your 16-digit Gmail App Password
+  },
+})
     // ✅ Responsive, dark-mode safe HTML email
     const html = `
     <html>
